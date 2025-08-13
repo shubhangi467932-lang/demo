@@ -1,62 +1,115 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "./ui/button";
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight, Play, Star, TrendingUp, Users, Zap } from "lucide-react";
 
 const Hero = () => {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePosition({
+        x: e.clientX / window.innerWidth,
+        y: e.clientY / window.innerHeight,
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
   return (
-    <section id="home" className="relative py-20 lg:py-32 overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white"></div>
-      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-blue-100 rounded-full opacity-20 blur-3xl"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-100 rounded-full opacity-20 blur-3xl"></div>
+    <section id="home" className="relative pt-20 pb-20 lg:pt-28 lg:pb-32 overflow-hidden bg-gradient-to-br from-slate-50 via-white to-indigo-50">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0">
+        <div 
+          className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-indigo-200 to-purple-200 rounded-full opacity-20 blur-3xl animate-pulse"
+          style={{
+            transform: `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px)`,
+          }}
+        ></div>
+        <div 
+          className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-br from-emerald-200 to-teal-200 rounded-full opacity-20 blur-3xl animate-pulse"
+          style={{
+            transform: `translate(${-mousePosition.x * 15}px, ${-mousePosition.y * 15}px)`,
+            animationDelay: '1s'
+          }}
+        ></div>
+      </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center px-4 py-2 bg-gray-100 rounded-full text-sm font-medium text-gray-700 mb-6">
-            <span className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
-            New version available
+          {/* Animated Badge */}
+          <div className="inline-flex items-center px-6 py-3 bg-white/80 backdrop-blur-sm rounded-full text-sm font-medium text-gray-700 mb-8 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="flex items-center mr-3">
+              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-ping mr-2"></div>
+              <TrendingUp className="h-4 w-4 text-emerald-500" />
+            </div>
+            <span>New: AI-powered features just landed</span>
           </div>
 
           {/* Main Heading */}
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            Build Something
-            <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Amazing Today
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold text-gray-900 mb-8 leading-tight">
+            Build The
+            <span className="block bg-gradient-to-r from-indigo-600 via-purple-600 to-teal-600 bg-clip-text text-transparent animate-pulse">
+              Future Today
             </span>
           </h1>
 
           {/* Subtitle */}
-          <p className="text-lg sm:text-xl text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed">
-            Create powerful applications with our comprehensive platform. Everything you need to bring your ideas to life, 
-            from concept to deployment in record time.
+          <p className="text-xl sm:text-2xl text-gray-600 mb-12 max-w-4xl mx-auto leading-relaxed font-light">
+            Transform your wildest ideas into reality with our next-generation platform. 
+            <span className="font-medium text-indigo-600"> Lightning-fast development</span>, 
+            <span className="font-medium text-purple-600"> enterprise security</span>, and 
+            <span className="font-medium text-teal-600"> unlimited scale</span>.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <Button className="bg-slate-900 hover:bg-slate-800 text-white px-8 py-3 text-lg font-medium transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-xl">
-              Get Started Free
-              <ArrowRight className="ml-2 h-5 w-5" />
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
+            <Button className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-10 py-4 text-lg font-semibold transition-all duration-300 hover:scale-105 shadow-2xl hover:shadow-3xl rounded-xl">
+              Start Building Free
+              <ArrowRight className="ml-3 h-5 w-5 transition-transform group-hover:translate-x-1" />
             </Button>
-            <Button variant="outline" className="border-2 px-8 py-3 text-lg font-medium transition-all duration-200 hover:scale-105">
-              <Play className="mr-2 h-5 w-5" />
+            <Button variant="outline" className="border-2 border-gray-300 hover:border-indigo-400 px-10 py-4 text-lg font-semibold transition-all duration-300 hover:scale-105 rounded-xl bg-white/80 backdrop-blur-sm">
+              <Play className="mr-3 h-5 w-5" />
               Watch Demo
             </Button>
           </div>
 
-          {/* Social Proof */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-8 text-sm text-gray-500">
-            <div className="flex items-center gap-2">
-              <span className="font-semibold text-gray-900">10,000+</span>
-              <span>Active Users</span>
+          {/* Enhanced Social Proof */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div className="flex flex-col items-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <div className="flex items-center mb-2">
+                <Users className="h-6 w-6 text-indigo-600 mr-2" />
+                <span className="text-3xl font-bold text-gray-900">50K+</span>
+              </div>
+              <span className="text-gray-600 font-medium">Active Builders</span>
+              <div className="flex mt-2">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="h-4 w-4 text-yellow-400 fill-current" />
+                ))}
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="font-semibold text-gray-900">99.9%</span>
-              <span>Uptime</span>
+            
+            <div className="flex flex-col items-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <div className="flex items-center mb-2">
+                <Zap className="h-6 w-6 text-emerald-600 mr-2" />
+                <span className="text-3xl font-bold text-gray-900">99.9%</span>
+              </div>
+              <span className="text-gray-600 font-medium">Uptime SLA</span>
+              <div className="flex mt-2">
+                <div className="w-16 h-2 bg-emerald-200 rounded-full">
+                  <div className="w-full h-2 bg-emerald-500 rounded-full"></div>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="font-semibold text-gray-900">24/7</span>
-              <span>Support</span>
+            
+            <div className="flex flex-col items-center p-6 bg-white/60 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 hover:scale-105">
+              <div className="flex items-center mb-2">
+                <TrendingUp className="h-6 w-6 text-purple-600 mr-2" />
+                <span className="text-3xl font-bold text-gray-900">10M+</span>
+              </div>
+              <span className="text-gray-600 font-medium">Apps Deployed</span>
+              <div className="text-xs text-gray-500 mt-2">Growing daily</div>
             </div>
           </div>
         </div>
